@@ -402,16 +402,16 @@ p::before {
   text-align: right;
   vertical-align: top;
 }
-.entity { padding: 0 .1em; border-bottom: 2px solid transparent; border-radius: 3px; cursor: pointer; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-.entity.person { background: var(--person); border-bottom-color: var(--person-line); }
-.entity.place { background: var(--place); border-bottom-color: var(--place-line); }
-.entity.office { background: var(--office); border-bottom-color: var(--office-line); }
-.entity.reign { background: var(--reign); border-bottom-color: var(--reign-line); }
+.entity { padding: 0 .12em; border-radius: 3px; cursor: pointer; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.entity.person { background: var(--person); }
+.entity.place { background: var(--place); }
+.entity.office { background: var(--office); }
+.entity.reign { background: var(--reign); }
 .entity.is-selected { outline: 2px solid #111827; outline-offset: 1px; }
 body.hide-person .entity.person,
 body.hide-place .entity.place,
 body.hide-office .entity.office,
-body.hide-reign .entity.reign { background: transparent; border-bottom-color: transparent; color: inherit; }
+body.hide-reign .entity.reign { background: transparent; color: inherit; }
 .stat-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 0 0 16px; }
 .stat { padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: #fbfcfe; }
 .stat strong { display: block; font-size: 22px; line-height: 1.1; font-variant-numeric: tabular-nums; }
