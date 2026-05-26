@@ -220,7 +220,6 @@ def entity_name(grouped: dict[str, list[dict[str, Any]]], entity_type: str, inde
 def generate_text(grouped: dict[str, list[dict[str, Any]]]) -> str:
     random.seed(RANDOM_SEED)
     chapter_lines: list[str] = []
-    line_no = 1
     verbs = ["校籍", "問道", "議禮", "修牒", "按圖", "考碑", "錄事", "訪古", "辨年", "會議"]
     textures = ["雨後", "燈下", "驛中", "水次", "城東", "山門", "廨舍", "書院", "江亭", "官署"]
     endings = ["其事散見舊牘，今但存其梗概。", "眾人各記一條，以備後來覆按。", "此段本為示範假文，不據原書敘事。", "卷中名號皆取權威表，以便展示標註。"]
@@ -232,8 +231,7 @@ def generate_text(grouped: dict[str, list[dict[str, Any]]]) -> str:
         office = entity_name(grouped, "office", chapter * 2)
         reign = entity_name(grouped, "reign", chapter)
         title = f"第{chinese_number(chapter)}回　{p1}{random.choice(verbs)}{place}　{p2}{office}記{reign}"
-        chapter_lines.append(f"{chapter}@{title}@{line_no}")
-        line_no += 1
+        chapter_lines.append(title)
 
         paragraph_count = 5 + (chapter % 4)
         for paragraph in range(paragraph_count):
@@ -254,8 +252,7 @@ def generate_text(grouped: dict[str, list[dict[str, Any]]]) -> str:
                 body = f"或曰{x}近{y}，或曰山川當道。{a}據碑記，{b}據官牒，兩說互異，乃請吏員覆校。"
             else:
                 body = f"{era}之歲，{off1}議於{x}。{a}、{b}各持一冊，先列人名，次列地名，以明 CBDB 權威資料可互相參照。"
-            chapter_lines.append(f"{chapter}@　　{body}@{line_no}")
-            line_no += 1
+            chapter_lines.append(f"　　{body}")
     return "\n".join(chapter_lines) + "\n"
 
 
