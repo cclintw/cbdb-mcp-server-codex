@@ -233,7 +233,7 @@ def write_html(
     body.extend(
         [
             "</ul></section></aside></div>",
-            f"<footer>本頁面為示範網頁, 內容經過亂數處理。標註來源為 ChatGPT + CBDB 資料庫( 共{len(authority_table)} 筆實體)</footer>",
+            f"<footer>本頁面為示範網頁，內容經過亂數處理。實體判讀由 Codex 輔助完成，權威資料來源為 CBDB 資料庫（共 {len(authority_table)} 筆實體）。</footer>",
             '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>',
             "<script>",
             f"const AUTHORITY = {authority_json};",
