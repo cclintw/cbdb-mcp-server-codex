@@ -4,6 +4,8 @@
 
 Demo: https://projects.cclin.cc/cbdb-mcp-server-codex
 
+展示頁來源位於 `demo/index.html`，並由 GitHub Actions 部署到 GitHub Pages。
+
 ## 功能概覽
 
 - 以 `FastMCP` 啟動本機 CBDB MCP server。
@@ -194,6 +196,9 @@ data/output/annotated.html
 
 ```text
 cbdb-mcp-server-codex/
+├── .github/
+│   └── workflows/
+│       └── pages.yml
 ├── README.md
 ├── requirements.txt
 ├── annotation_workflow.py
