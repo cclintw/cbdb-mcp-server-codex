@@ -32,6 +32,9 @@ data/input/*
 data/output/
 *.html
 
+# Published static demo
+!demo/index.html
+
 # Local writing / prompt drafts
 AGENTS.md
 doc/

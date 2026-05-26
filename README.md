@@ -2,6 +2,8 @@
 
 本專案提供一個本機 CBDB MCP server 與一個簡單的文本標註輸出流程。使用者可以在 Codex 中透過 MCP tools 查詢 CBDB SQLite，建立本次任務所需的 authority table，並輸出可直接瀏覽的 annotated HTML。
 
+Demo: https://projects.cclin.cc/cbdb-mcp-server-codex
+
 ## 功能概覽
 
 - 以 `FastMCP` 啟動本機 CBDB MCP server。
@@ -204,6 +206,8 @@ cbdb-mcp-server-codex/
 │   │   └── README.md
 │   └── input/
 │       └── sample-1.txt
+├── demo/
+│   └── index.html
 └── mcp_server/
     ├── cbdb_sqlite.py
     └── server.py
