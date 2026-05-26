@@ -12,7 +12,6 @@ CBDB 目前提供 API 與可下載資料，但尚未提供官方 MCP server。�
 
 - CBDB MCP server 程式
 - Codex MCP client 設定範例
-- Codex 任務說明
 - 一份合成示範文本 `sample-1.txt`
 - 一個最小標註輸出流程，用於展示 MCP server 的應用效果
 
@@ -137,56 +136,36 @@ data/output/
 - 人物 CBDB API 參考來源
 - 地名 GIS marker，使用 Leaflet + OpenStreetMap
 
-## Codex 任務說明
+## Codex 標註任務概念
 
-Codex 使用本專案時，請參考：
-
-```text
-AGENTS.md
-prompts/annotation_prompt.md
-```
-
-任務概念是：
+本 repo 不把一次性的 Codex prompt 或本機任務備忘錄納入版本控制。使用 Codex 進行標註時，核心任務概念是：
 
 1. 讀取文本。
 2. 透過 MCP tools 查詢 CBDB。
 3. 建立 `data/output/authority_table.json`。
 4. 執行 Python 產生 annotated HTML。
 
-## 教學文章
-
-專案附一篇教學文章：
-
-```text
-doc/ai-history-mcp-cbdb-annotation.md
-```
-
-內容說明：
-
-- MCP 是什麼
-- MCP server / MCP client 的角色
-- MCP 與 API 的差異
-- 為何本專案需要下載 CBDB SQLite
-- 為何 CBDB 適合作為示範案例
-- CBDB 作為權威候選來源的文本標註流程
-
 ## 專案結構
 
 ```text
-cbdb-mcp-annotation-demo/
-├── AGENTS.md
+cbdb-mcp-server-codex/
 ├── README.md
 ├── requirements.txt
 ├── config/
+│   ├── cbdb_schema_notes.json
+│   └── codex-mcp-example.json
 ├── data/
 │   ├── cbdb/
+│   │   └── README.md
 │   └── input/
-├── doc/
+│       └── sample-1.txt
 ├── mcp_server/
-├── prompts/
-├── src/
-└── templates/
+│   ├── cbdb_sqlite.py
+│   └── server.py
+└── src/
 ```
+
+`data/output/`、`doc/`、`prompts/`、`templates/`、`*.html` 與下載後的 CBDB SQLite 都屬本機工作檔或產物，不納入 repo。
 
 ## 不包含的功能
 
