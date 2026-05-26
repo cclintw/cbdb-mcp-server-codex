@@ -1,0 +1,7 @@
+{
+  "input_text": "data/input/sample-1.txt",
+  "output_dir": "data/output",
+  "authority_table": "data/output/authority_table.json",
+  "html_output": "data/output/annotated.html",
+  "page_title": "CBDB MCP Annotation Demo"
+}
