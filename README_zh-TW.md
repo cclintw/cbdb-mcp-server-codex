@@ -4,6 +4,8 @@
 
 Demo: https://projects.cclin.cc/cbdb-mcp-server-codex
 
+詳細介紹: https://cclin.cc/?p=5341
+
 展示頁來源位於 `demo/index.html`，並由 GitHub Actions 部署到 GitHub Pages。
 
 ## 功能概覽
