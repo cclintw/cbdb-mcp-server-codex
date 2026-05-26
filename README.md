@@ -15,7 +15,7 @@
 
 ```mermaid
 flowchart TD
-    A["Clone 專案"] --> B["安裝 Python 套件"]
+    A["下載 ZIP 並解壓縮"] --> B["安裝 Python 套件"]
     B --> C["放置 CBDB SQLite"]
     C --> D["設定 Codex MCP"]
     D --> E["設定 workflow.json"]
@@ -24,16 +24,24 @@ flowchart TD
     G --> H["開啟 annotated.html"]
 ```
 
-## 安裝
+## 下載與安裝
+
+建議使用 Download ZIP：
+
+1. 開啟專案頁面：`https://github.com/cclintw/cbdb-mcp-server-codex`
+2. 點選 `Code` → `Download ZIP`
+3. 解壓縮到自己的 Codex 專案資料夾
+4. 在 Codex 中開啟該資料夾
 
 ```bash
-git clone https://github.com/cclintw/cbdb-mcp-server-codex.git
 cd cbdb-mcp-server-codex
 
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
+
+如果熟悉 Git，也可以改用 `git clone` 取得專案。
 
 ## 準備 CBDB SQLite
 
