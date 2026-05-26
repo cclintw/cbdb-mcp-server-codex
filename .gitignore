@@ -26,10 +26,13 @@ data/cbdb/*.json
 
 # Generated output
 data/output/
-doc/*.html
+*.html
 
-# Keep source documentation and folder notes trackable
-!doc/*.md
+# Local writing / prompt drafts
+doc/
+prompts/
+
+# Keep folder notes trackable
 !data/cbdb/README.md
 
 # Local logs and temp files
