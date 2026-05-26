@@ -24,6 +24,10 @@ data/cbdb/*.zip
 data/cbdb/*.7z
 data/cbdb/*.json
 
+# User texts: keep only the bundled demo sample tracked
+data/input/*
+!data/input/sample-1.txt
+
 # Generated output
 data/output/
 *.html

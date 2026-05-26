@@ -148,6 +148,8 @@ data/output/authority_table.json
 
 ## 產生 HTML
 
+建議先執行一次 workflow，產生章節與段落檔：
+
 ```bash
 python annotation_workflow.py --config config/workflow.json
 ```
@@ -167,9 +169,12 @@ data/output/annotated.html
 
 ## Codex 任務範例
 
+完成 MCP 設定並先執行一次 `annotation_workflow.py` 後，可在 Codex 中貼上：
+
 ```text
 請讀取 config/workflow.json 指定的 input_text。
-請判斷文本中適合查詢 CBDB 的 person、place、office、reign 候選。
+請參考 data/output/chapters.json 與 data/output/paragraphs.json。
+請判斷文本中適合查詢 CBDB 的 person、place、office、reign 候選實體。
 請使用 cbdb MCP tools 查詢 search_person、search_place、search_office、search_reign。
 請將確認結果寫入 data/output/authority_table.json。
 完成後執行 python annotation_workflow.py --config config/workflow.json。
