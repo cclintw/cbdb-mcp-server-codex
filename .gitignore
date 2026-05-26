@@ -29,6 +29,7 @@ data/output/
 *.html
 
 # Local writing / prompt drafts
+AGENTS.md
 doc/
 prompts/
 
