@@ -231,6 +231,4 @@ cbdb-mcp-server-codex/
 Harvard University, Academia Sinica, and Peking University, China Biographical Database (CBDB), https://projects.iq.harvard.edu/cbdb.
 ```
 
-CBDB citation guide: https://projects.iq.harvard.edu/cbdb/how-cite-cbdb
-
 This repository provides the MCP server and demonstration workflow code.
