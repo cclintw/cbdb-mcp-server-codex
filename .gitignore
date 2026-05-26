@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# macOS / editor
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# CBDB data: do not commit downloaded database archives
+data/cbdb/*.sqlite
+data/cbdb/*.sqlite3
+data/cbdb/*.db
+data/cbdb/*.zip
+data/cbdb/*.7z
+data/cbdb/*.json
+
+# Generated output
+data/output/
+doc/*.html
+
+# Keep source documentation and folder notes trackable
+!doc/*.md
+!data/cbdb/README.md
+
+# Local logs and temp files
+*.log
+tmp/
+temp/
