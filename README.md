@@ -227,10 +227,6 @@ cbdb-mcp-server-codex/
 
 ## Data Source
 
-CBDB SQLite should be obtained, used, and cited according to CBDB's official terms and citation guidelines.
-
-Recommended citation:
-
 ```text
 Harvard University, Academia Sinica, and Peking University, China Biographical Database (CBDB), https://projects.iq.harvard.edu/cbdb.
 ```

@@ -222,10 +222,6 @@ cbdb-mcp-server-codex/
 
 ## 資料來源
 
-CBDB SQLite 請依 CBDB 官方授權與引用規範取得、使用與引用。
-
-建議引用格式：
-
 ```text
 Harvard University, Academia Sinica, and Peking University, China Biographical Database (CBDB), https://projects.iq.harvard.edu/cbdb.
 ```
