@@ -2,7 +2,7 @@
 
 本專案示範如何在本機自建一個 CBDB MCP server，讓 Codex 或其他支援 MCP 的 AI 工具能夠查詢使用者自行下載的 CBDB SQLite。
 
-CBDB 目前提供 API 與可下載資料，但尚未提供官方 MCP server。本專案因此提供一個本地實作：使用者把 CBDB SQLite 放到指定位置後，即可透過 MCP tools 查詢人物、地名、職官與年號，並用附帶的示範文本展示 AI + MCP + CBDB 的文本標註流程。
+CBDB 目前提供 API 與可下載資料，但尚未提供官方 MCP server。本專案因此提供一個本地實作：使用者把 CBDB SQLite 放到指定位置後，即可透過 MCP tools 查詢人物、地名、職官與年號。
 
 本專案不重新發布 CBDB SQLite，也不建立自有大型權威資料庫。
 
@@ -12,10 +12,9 @@ CBDB 目前提供 API 與可下載資料，但尚未提供官方 MCP server。�
 
 - CBDB MCP server 程式
 - Codex MCP client 設定範例
-- 一份合成示範文本 `sample-1.txt`
-- 一個最小標註輸出流程，用於展示 MCP server 的應用效果
+- 一份合成示範文本 `sample-1.txt`，可作為 Codex 標註任務測試材料
 
-專案重點是「如何讓 AI 工具透過 MCP 使用 CBDB」，不是建立完整 NLP pipeline，也不是替代 MARKUS。
+專案重點是「如何讓 AI 工具透過 MCP 使用 CBDB」。本 repo 不預設使用者要處理哪一種文本，也不提供固定的文本處理 pipeline。
 
 ## 為什麼需要下載 CBDB SQLite
 
@@ -27,7 +26,7 @@ CBDB 目前提供 API 與可下載資料，但尚未提供官方 MCP server。�
 flowchart LR
     A["CBDB SQLite<br>使用者自行下載"] --> B["本地 CBDB MCP server"]
     B --> C["Codex / MCP client"]
-    C --> D["查詢 CBDB / 建立標註"]
+    C --> D["查詢 CBDB<br>供 AI 任務使用"]
 ```
 
 ## 功能
@@ -99,7 +98,7 @@ config/codex-mcp-example.json
 
 請依實際環境調整 `command` 的 Python 路徑。
 
-## 示範文本與標註流程
+## 示範文本
 
 本 repo 附一份合成示範文本：
 
@@ -109,41 +108,16 @@ data/input/sample-1.txt
 
 此文本經亂數處理，目的只是展示 CBDB MCP server 的查詢與標註效果，不作為可靠文本版本。
 
-重新產生示範文本與 authority table：
+使用者可以改用自己的文本。MCP server 不讀取或改寫文本；它只提供 CBDB 查詢 tools，讓 Codex 或其他 MCP client 在任務中自行決定如何使用查詢結果。
 
-```bash
-python src/generate_demo_corpus.py
-```
+## Codex 使用概念
 
-產生 annotated HTML：
+本 repo 不把一次性的 Codex prompt 或本機任務備忘錄納入版本控制。使用 Codex 進行標註或研究輔助時，核心概念是：
 
-```bash
-python src/main.py --input data/input/sample-1.txt
-```
-
-輸出位於：
-
-```text
-data/output/
-```
-
-產生的 `annotated.html` 可直接用瀏覽器開啟，包含：
-
-- 左側章節列表
-- 中央標註文本
-- 上方實體類型 badge
-- 右側 CBDB 詳情
-- 人物 CBDB API 參考來源
-- 地名 GIS marker，使用 Leaflet + OpenStreetMap
-
-## Codex 標註任務概念
-
-本 repo 不把一次性的 Codex prompt 或本機任務備忘錄納入版本控制。使用 Codex 進行標註時，核心任務概念是：
-
-1. 讀取文本。
-2. 透過 MCP tools 查詢 CBDB。
-3. 建立 `data/output/authority_table.json`。
-4. 執行 Python 產生 annotated HTML。
+1. 使用者準備自己的文本或使用 `data/input/sample-1.txt`。
+2. Codex 根據任務需求判斷需要查詢的人物、地名、職官或年號。
+3. Codex 透過 MCP tools 查詢本機 CBDB SQLite。
+4. Codex 將查詢結果用於註解、校對、候選比對、研究筆記或其他輸出。
 
 ## 專案結構
 
@@ -162,10 +136,9 @@ cbdb-mcp-server-codex/
 ├── mcp_server/
 │   ├── cbdb_sqlite.py
 │   └── server.py
-└── src/
 ```
 
-`data/output/`、`doc/`、`prompts/`、`templates/`、`*.html` 與下載後的 CBDB SQLite 都屬本機工作檔或產物，不納入 repo。
+`data/output/`、`doc/`、`prompts/`、`src/`、`templates/`、`*.html` 與下載後的 CBDB SQLite 都屬本機工作檔或產物，不納入 repo。
 
 ## 不包含的功能
 
@@ -181,7 +154,7 @@ cbdb-mcp-server-codex/
 - OpenAI API 呼叫
 - 額外 LLM API client
 
-Python 程式只負責分章、分段與 HTML 輸出。AI 判斷由 Codex 完成；CBDB 查詢由 MCP server 完成。
+AI 判斷由 Codex 或其他 MCP client 完成；CBDB 查詢由本專案的 MCP server 完成。
 
 ## 資料與授權聲明
 
