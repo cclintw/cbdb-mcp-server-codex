@@ -469,6 +469,7 @@ footer {
   body.right-collapsed .layout,
   body.left-collapsed.right-collapsed .layout { grid-template-columns: 0 minmax(0, 1fr); }
   .inspector { grid-column: 1 / -1; position: static; height: auto; border-left: 0; border-top: 1px solid var(--line); }
+  body.right-collapsed .inspector { display: none; }
 }
 @media (max-width: 760px) {
   header { grid-template-columns: 34px 1fr 34px; align-items: start; }
@@ -478,6 +479,8 @@ footer {
   .type-badges { grid-column: 1 / -1; justify-content: flex-start; }
   .layout { display: block; }
   .chapters, .inspector { position: static; height: auto; border: 0; border-bottom: 1px solid var(--line); }
+  body.left-collapsed .chapters,
+  body.right-collapsed .inspector { display: none; }
   .chapter-list { max-height: 220px; overflow: auto; }
   main { padding: 22px 18px 42px; }
   .reader { font-size: 17px; }
