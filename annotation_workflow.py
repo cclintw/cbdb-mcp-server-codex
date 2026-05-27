@@ -69,7 +69,6 @@ def split_text(text: str) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     chapters: list[dict[str, Any]] = []
     paragraphs: list[dict[str, Any]] = []
     current_chapter: dict[str, Any] | None = None
-    buffer: list[str] = []
 
     def ensure_chapter(title: str = "未分章") -> dict[str, Any]:
         nonlocal current_chapter
@@ -78,12 +77,9 @@ def split_text(text: str) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
             chapters.append(current_chapter)
         return current_chapter
 
-    def flush() -> None:
-        if not buffer:
-            return
+    def add_paragraph(text_value: str) -> None:
         chapter = ensure_chapter()
-        text_value = "\n".join(line for line in buffer if line.strip()).strip()
-        buffer.clear()
+        text_value = text_value.strip("\ufeff").strip()
         if not text_value:
             return
         paragraphs.append(
@@ -97,16 +93,12 @@ def split_text(text: str) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     for raw_line in text.splitlines():
         line = raw_line.strip()
         if not line:
-            flush()
             continue
         if is_chapter_heading(line):
-            flush()
             current_chapter = {"chapter_id": f"ch_{len(chapters) + 1:04d}", "title": clean_heading(line)}
             chapters.append(current_chapter)
             continue
-        ensure_chapter()
-        buffer.append(raw_line.strip("\ufeff"))
-    flush()
+        add_paragraph(raw_line)
     return chapters, paragraphs
 
 
