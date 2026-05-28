@@ -181,7 +181,7 @@ def write_html(
         '<button id="toggleRight" class="panel-toggle" type="button" title="展開/收合標註資訊" aria-label="展開/收合標註資訊" aria-expanded="true"></button>',
         "</header>",
         '<div class="layout">',
-        '<aside class="chapters"><div class="panel-head"><h2>章節</h2>'
+        '<aside class="chapter-panel"><div class="panel-head"><h2>章節</h2>'
         f'<span class="meta">{len(chapters)} 回</span></div><ol class="chapter-list">',
     ]
     for chapter in chapters:
@@ -275,6 +275,7 @@ body {
   color: var(--ink);
   background: var(--bg);
   font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", sans-serif;
+  overflow-x: hidden;
 }
 header {
   position: sticky;
@@ -337,7 +338,7 @@ h1 { margin: 0; font-size: 19px; line-height: 1.25; white-space: nowrap; }
 body.left-collapsed .layout { grid-template-columns: 0 minmax(0, 1fr) 360px; }
 body.right-collapsed .layout { grid-template-columns: 280px minmax(0, 1fr) 0; }
 body.left-collapsed.right-collapsed .layout { grid-template-columns: 0 minmax(0, 1fr) 0; }
-.chapters, .inspector {
+.chapter-panel, .inspector {
   position: sticky;
   top: 58px;
   height: calc(100vh - 58px);
@@ -345,16 +346,16 @@ body.left-collapsed.right-collapsed .layout { grid-template-columns: 0 minmax(0,
   background: var(--panel);
   transition: padding .22s ease, opacity .18s ease;
 }
-body.left-collapsed .chapters,
+body.left-collapsed .chapter-panel,
 body.right-collapsed .inspector {
   padding: 0;
   border: 0;
   overflow: hidden;
   opacity: 0;
 }
-body.left-collapsed .chapters > *,
+body.left-collapsed .chapter-panel > *,
 body.right-collapsed .inspector > * { display: none; }
-.chapters { border-right: 1px solid var(--line); padding: 12px; }
+.chapter-panel { border-right: 1px solid var(--line); padding: 12px; }
 .inspector { border-left: 1px solid var(--line); padding: 14px; }
 .panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
 .panel-head h2 { margin: 0; font-size: 15px; }
@@ -456,27 +457,74 @@ footer {
   text-align: center;
 }
 @media (max-width: 1120px) {
-  .layout { grid-template-columns: 220px minmax(0, 1fr); }
+  .layout { display: block; min-height: calc(100vh - 58px); }
   body.left-collapsed .layout,
   body.right-collapsed .layout,
-  body.left-collapsed.right-collapsed .layout { grid-template-columns: 0 minmax(0, 1fr); }
-  .inspector { grid-column: 1 / -1; position: static; height: auto; border-left: 0; border-top: 1px solid var(--line); }
-  body.right-collapsed .inspector { display: none; }
+  body.left-collapsed.right-collapsed .layout { display: block; }
+  .chapter-panel, .inspector {
+    position: fixed;
+    top: 58px;
+    z-index: 40;
+    width: min(84vw, 340px);
+    height: calc(100vh - 58px - 46px);
+    max-height: none;
+    background: #fff;
+    box-shadow: 0 14px 32px rgba(15, 23, 42, .16);
+    transition: width .24s ease, padding .24s ease, left .24s ease, right .24s ease, transform .24s ease, opacity .24s ease;
+  }
+  .chapter-panel { left: 0; border-right: 1px solid var(--line); }
+  .inspector { right: 0; border-left: 1px solid var(--line); }
+  body.left-collapsed .chapter-panel {
+    display: block;
+    left: -340px;
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+    padding: 12px;
+    border-right: 1px solid var(--line);
+    overflow: auto;
+  }
+  body.right-collapsed .inspector {
+    display: block;
+    right: -340px;
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+    padding: 14px;
+    border-left: 1px solid var(--line);
+    overflow: auto;
+  }
+  .chapter-panel.is-collapsed {
+    display: block;
+    left: -340px;
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .inspector.is-collapsed {
+    display: block;
+    right: -340px;
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  body.left-collapsed .chapter-panel > *,
+  body.right-collapsed .inspector > * { display: block; }
+  main { padding: 24px 24px 48px; }
 }
 @media (max-width: 760px) {
   header { grid-template-columns: 34px 1fr 34px; align-items: start; }
   header > div:first-of-type { grid-column: 2; grid-row: 1; }
   #toggleLeft { grid-column: 1; grid-row: 1; }
   #toggleRight { grid-column: 3; grid-row: 1; }
-  .type-badges { grid-column: 1 / -1; justify-content: flex-start; }
-  .layout { display: block; }
-  .chapters, .inspector { position: static; height: auto; border: 0; border-bottom: 1px solid var(--line); }
-  body.left-collapsed .chapters,
-  body.right-collapsed .inspector { display: none; }
+  .type-badges { grid-column: 1 / -1; justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+  .type-badges::-webkit-scrollbar { display: none; }
+  .type-badge { flex: 0 0 auto; }
   .chapter-list { max-height: 220px; overflow: auto; }
   main { padding: 22px 18px 42px; }
   .reader { font-size: 17px; }
   p::before { display: none; }
+  footer { font-size: 12px; padding: 10px 12px; }
 }
 """
 
@@ -702,6 +750,7 @@ function initChapterSpy() {
 function initPanelToggles() {
   const left = document.getElementById('toggleLeft');
   const right = document.getElementById('toggleRight');
+  collapsePanelsOnSmallScreen();
   left.addEventListener('click', () => {
     document.body.classList.toggle('left-collapsed');
     updatePanelToggleIcons();
@@ -713,7 +762,25 @@ function initPanelToggles() {
       setTimeout(refreshMapView, 240);
     }
   });
+  window.addEventListener('resize', syncPanelDrawerState);
   updatePanelToggleIcons();
+}
+
+function collapsePanelsOnSmallScreen() {
+  if (!window.matchMedia('(max-width: 1120px)').matches) return;
+  document.body.classList.add('left-collapsed', 'right-collapsed');
+}
+
+function collapseLeftPanelOnSmallScreen() {
+  if (!window.matchMedia('(max-width: 1120px)').matches) return;
+  document.body.classList.add('left-collapsed');
+  updatePanelToggleIcons();
+}
+
+function initMobileChapterLinks() {
+  document.querySelectorAll('[data-chapter-link]').forEach(link => {
+    link.addEventListener('click', collapseLeftPanelOnSmallScreen);
+  });
 }
 
 function updatePanelToggleIcons() {
@@ -722,10 +789,48 @@ function updatePanelToggleIcons() {
   if (!left || !right) return;
   const leftCollapsed = document.body.classList.contains('left-collapsed');
   const rightCollapsed = document.body.classList.contains('right-collapsed');
+  document.querySelector('.chapter-panel')?.classList.toggle('is-collapsed', leftCollapsed);
+  document.querySelector('.inspector')?.classList.toggle('is-collapsed', rightCollapsed);
+  syncPanelDrawerState();
   left.innerHTML = leftCollapsed ? icons.leftExpand : icons.leftCollapse;
   right.innerHTML = rightCollapsed ? icons.rightExpand : icons.rightCollapse;
   left.setAttribute('aria-expanded', String(!leftCollapsed));
   right.setAttribute('aria-expanded', String(!rightCollapsed));
+}
+
+function syncPanelDrawerState() {
+  const chapters = document.querySelector('.chapter-panel');
+  const inspector = document.querySelector('.inspector');
+  if (!chapters || !inspector) return;
+  const narrow = window.matchMedia('(max-width: 1120px)').matches;
+  const leftCollapsed = document.body.classList.contains('left-collapsed');
+  const rightCollapsed = document.body.classList.contains('right-collapsed');
+  if (!narrow) {
+    [chapters, inspector].forEach(panel => {
+      panel.style.transform = '';
+      panel.style.opacity = '';
+      panel.style.pointerEvents = '';
+      panel.style.width = '';
+      panel.style.padding = '';
+      panel.style.borderWidth = '';
+      panel.style.overflow = '';
+    });
+    return;
+  }
+  chapters.style.transform = leftCollapsed ? 'translateX(-100%)' : 'translateX(0)';
+  chapters.style.opacity = leftCollapsed ? '0' : '1';
+  chapters.style.pointerEvents = leftCollapsed ? 'none' : 'auto';
+  chapters.style.width = leftCollapsed ? '0px' : 'min(84vw, 340px)';
+  chapters.style.padding = leftCollapsed ? '0px' : '12px';
+  chapters.style.borderWidth = leftCollapsed ? '0px' : '';
+  chapters.style.overflow = 'auto';
+  inspector.style.transform = rightCollapsed ? 'translateX(100%)' : 'translateX(0)';
+  inspector.style.opacity = rightCollapsed ? '0' : '1';
+  inspector.style.pointerEvents = rightCollapsed ? 'none' : 'auto';
+  inspector.style.width = rightCollapsed ? '0px' : 'min(84vw, 340px)';
+  inspector.style.padding = rightCollapsed ? '0px' : '14px';
+  inspector.style.borderWidth = rightCollapsed ? '0px' : '';
+  inspector.style.overflow = 'auto';
 }
 
 const counts = countMentions();
@@ -735,6 +840,7 @@ initEntityClicks();
 initTypeBadges();
 initChapterSpy();
 initPanelToggles();
+initMobileChapterLinks();
 """
 
 
