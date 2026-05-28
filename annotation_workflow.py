@@ -520,7 +520,7 @@ footer {
   .type-badges { grid-column: 1 / -1; justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
   .type-badges::-webkit-scrollbar { display: none; }
   .type-badge { flex: 0 0 auto; }
-  .chapter-list { max-height: 220px; overflow: auto; }
+  .chapter-list { max-height: none; overflow: visible; }
   main { padding: 22px 18px 42px; }
   .reader { font-size: 17px; }
   p::before { display: none; }
