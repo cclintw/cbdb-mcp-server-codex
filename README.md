@@ -4,8 +4,6 @@ This project provides a local CBDB MCP server and a small annotation workflow fo
 
 Demo: https://projects.cclin.cc/cbdb-mcp-server-codex
 
-Detailed introduction: https://cclin.cc/?p=5341
-
 Traditional Chinese README: [README_zh-TW.md](README_zh-TW.md)
 
 The published demo page is generated from `demo/index.html` and deployed to GitHub Pages.
